@@ -1,0 +1,87 @@
+<!-- carga los templates de la app1 -->
+{% include '..\..\app1\templates\header.html' %}
+
+{% block content %}
+
+{% if request.session.firstname %}
+{% load tz %}  <!-- carga la zona horaria -->
+
+<!-- si existe la sesión -->
+
+
+
+<div class="container row">
+    <h2 class="text-center border-bottom bg-primary text-white p-3">Este es el Muro</h2>
+    {% include '..\..\app1\templates\register_data.html' %}
+
+    <form action="wall/postmessage" class="col-md-7 bg-primary m-4 rounded text-white" method="post">
+        {% csrf_token %}
+        <div class="form-group row m-1">
+            <h3>Escriba su mensaje</h3>
+            <textarea name="messagesHTML" id="" cols="25" rows="2" style="resize: none;"
+                class="form-control"></textarea>
+            <div class="row">
+                <div class="col-md-8"></div><input type="submit" value="Publicar Mensaje"
+                    class="btn btn-light m-3 col-md-3">
+            </div>
+        </div>
+    </form>
+
+    <h2 class="text-center border-bottom">Mensajes :</h2>
+    {% for u in messages %}
+    <div class="col-md-9 m-4 border p-2 bg-light rounded">
+
+        <div class="bg-secondary rounded p-2 text-white">
+            
+            {{ u.users.firstname}} {{ u.users.lastname}} publicó un mensaje - 
+            ( {% timezone "America/Santiago" %} {{ u.created_at }} {% endtimezone  %} ) (mensaje n° {{u.id}}) 
+            <h4> {{ u.message}}</h4>
+            
+
+                {% if u.users.id == id_actual_user %}
+                <form action="wall/delete_message" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id_of_message" value="{{ u.id }}">
+                    <input type="submit" name="" id=""  value="Eliminar mi mensaje" class="btn btn-light btn-sm m-2">
+                </form>
+                {% endif %}
+        </div>
+
+
+
+            {% for c in comments %}
+            <div class="m-2">
+                {% if c.messages.id == u.id %}
+                {{c.users.firstname}} {{c.users.lastname}} comentó  : {{c.comment}} - ( {% timezone "America/Santiago" %} {{ c.created_at }} {% endtimezone  %} ) 
+                    
+                {% if c.users.id == id_actual_user %}
+                     <form action="wall/delete_comment" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id_commentHTML" value="{{c.id}}">
+                        <input type="submit" name="" id=""  value="Eliminar mi comentario" class="btn btn-sm border">
+                    </form>
+                {% endif %}
+                    
+
+                {% endif %}
+            </div>
+            {% endfor %}
+
+        <form action="wall/comment" method="post" class="m-2">
+            {% csrf_token %}
+            <textarea name="commentHTML" id="" style="resize: none; width: 60% ;" class="form-control"></textarea>
+            <input type="hidden" name="message_id_to_comment" value="{{ u.id }}">
+            <input type="hidden" name="user_id_of_the_message" value="{{ request.session.id }}">
+            <input type="submit" value="Publicar Comentario" style="resize: none; width: 20% " 
+                class="btn btn-primary m-2">
+        </form>
+    </div>
+    {% endfor %}
+
+
+    {% else %}
+    <!-- si NO existe la sesión -->
+    <a href="/">Debe logearse para ingresar</a>
+    {% endif %}
+</div>
+{% endblock %}

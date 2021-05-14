@@ -1,0 +1,66 @@
+{% extends 'header.html' %}
+
+{% block content %}
+
+
+<div class="container row">
+
+
+    <form action="/register" method="post" class="col-md-5 bg-light p-4 m-5 rounded">
+        {% csrf_token %}
+        <h3>Registro</h3>
+
+        <div class="form-group row m-3">
+            <p class="col">Nombre :</p> <input type="" name="firstnameHTML" class="form-control col">
+        </div>
+
+        <div class="form-group row m-3">
+            <p class="col">Apellido :</p> <input type="" name="lastnameHTML" class="form-control col">
+        </div>
+        <div class="form-group row m-3">
+            <p class="col">Fecha nacimiento :</p> <input type="date" name="birth_dateHTML" class="form-control col">
+        </div>
+        <div class="form-group row m-3">
+            <p class="col">Email :</p> <input type="" name="emailHTML" class="form-control col">
+        </div>
+        <div class="form-group row m-3">
+            <p class="col">Contraseña :</p> <input type="password " name="passwordHTML" class="form-control col">
+        </div>
+        <div class="form-group row m-3">
+            <p class="col">Confime su contraseña :</p> <input type="password" name="password_confirmHTML"
+                class="form-control col">
+        </div>
+        <input type="submit" value="Registrarse" class="btn btn-primary col m-3">
+    </form>
+
+
+
+    <form action="/login" method="post" class="col-md-4 bg-secondary m-5 p-4 text-white rounded">
+        {% csrf_token %}
+        <h3>Identificarse</h3>
+        <div class="form-group row m-3">
+            <p class="col">Email :</p> <input type="" name="emailHTML" class="form-control col">
+        </div>
+        <div class="form-group row m-3">
+            <p class="col">Contraseña :</p> <input type="password" name="passwordHTML" class="form-control col">
+        </div>
+        <input type="submit" value="Ingresar" class="btn btn-light col m-3">
+
+    </form>
+
+
+
+
+</div>
+<div class="col-md-5 p-4">
+    {% if messages %}
+    <ul class="text-danger">
+        {% for m in messages %}
+        <li> {{m}} </li>
+        {% endfor %}
+    </ul>
+    {% endif%}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+<!-- ya no se utilza este template actualmente -->
+{% include 'header.html' %}
+{% include 'register_data.html' %}
+    {% block content %}
+
+        
+        {% if request.session.firstname %}
+        <div class="container row bg-light m-5 p-2 ">
+            <h2>Acceso concedido</h2>
+            <h3>Bienvenido, {{request.session.firstname}} {{request.session.lastname}}</h3>
+            <h4>Tu email es: {{request.session.email}}</h4>
+            <h4>Tu fecha de nacimiento es: {{request.session.birth_date}}</h4>
+        </div>
+        <a href="/logout">Cerrar Sesión</a>
+        {% else %}
+        <a href="/">Debe logearse para ingresar</a>
+        {% endif %}
+    {% endblock %}

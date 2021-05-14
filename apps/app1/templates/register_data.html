@@ -1,0 +1,14 @@
+{% block content %}
+
+{% if request.session.firstname %}
+<div class="container bg-light p-2">
+    <p class="">Bienvenido, {{request.session.firstname}} {{request.session.lastname}}</p>
+    <p>Nací el  : {{request.session.birth_date}}</p>
+    <p>Mi email : {{request.session.email}}</p>
+    
+    <a href="/logout" class="">Cerrar Sesión</a>
+</div>
+{% else %}
+{% endif %}
+
+{% endblock %}
