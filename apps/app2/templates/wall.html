@@ -1,5 +1,5 @@
 <!-- carga los templates de la app1 -->
-{% include '..\..\app1\templates\header.html' %}
+{% include 'header.html' %}
 
 {% block content %}
 
@@ -12,7 +12,7 @@
 
 <div class="container row">
     <h2 class="text-center border-bottom bg-primary text-white p-3">Este es el Muro</h2>
-    {% include '..\..\app1\templates\register_data.html' %}
+    {% include 'register_data.html' %}
 
     <form action="wall/postmessage" class="col-md-7 bg-primary m-4 rounded text-white" method="post">
         {% csrf_token %}
